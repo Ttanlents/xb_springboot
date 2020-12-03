@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<base href="/xb/"/>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/form-elements.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/layer.css">
+		<title>重置密码</title>
+		<style>
+			body {
+            background: url("img/bg.jpg") no-repeat fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+    </style>
+	</head>
+	<body>
+
+		<div class="container myBox" id="app">
+			<div class="col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-3 form-box">
+				<div class="form-top">
+					<div class="form-top-left">
+						<h3>重置密码</h3>
+						<p>请输入您的邮箱:</p>
+					</div>
+					<div class="form-top-right">
+						<i class="fa fa-key"></i>
+					</div>
+				</div>
+				<div class="form-bottom">
+					<form role="form" action="html/home.html" method="post" class="login-form" @submit.prevent="">
+
+						<!--上面的输入框尽可能不需要外边距，使用row解决-->
+						<div class="row">
+							<div style="margin-bottom: 15px" class="form-inline">
+								<label class="sr-only" for="form-username">Email</label>
+								<input type="text" name="form-username" v-model="user.email" placeholder="邮箱" class="form-username" id="form-username" @blur="checkEmail">
+								<input type="button" class="btn btn-primary" value="发送验证码" @click="sendEmailCode">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="form-password">验证码</label>
+								<input type="text" name="form-password" placeholder="验证码" class="form-control" v-model="code">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="form-password">Password</label>
+								<input type="password" name="form-password" placeholder="新密码" class="form-password form-control" id="form-password" v-model="user.password">
+							</div>
+						</div>
+						<!--上面的输入框尽可能不需要外边距，使用row包裹起来解决-->
+
+						<button type="button" class="btn" @click="toSumbbit">重置</button>
+
+						<div class="row">
+							<div style="padding: 10px 25px">
+								<div style="display: inline-block;float: left" class="text-left"><a href="index.html">返回登录</a></div>
+								<!--<div style="display: inline-block;float: right" class="text-right"><a href="#">没有账号?</a></div>-->
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Javascript -->
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/jquery.backstretch.min.js"></script>
+		<script src="js/scripts.js"></script>
+		<script src="js/layer.js"></script>
+		<script src="js/vue-2.6.11.js"></script>
+		<script src="js/axios-0.19.2.min.js"></script>
+		<script src="js/jquery-cookie-1.4.1.js"></script>
+		<script>
+			new Vue({
+				el:'#app',
+				data:{
+					user:{},
+					code:''
+				},
+				methods:{
+                    checkEmail:function (event) {
+                        axios({
+                            url:`user/checkEmail/${this.user.email}`,
+                            method:'get'
+                        }).then(res=>{
+                            if (!res.data.success){ //邮箱还没注册
+                                layer.msg(res.data.msg);
+                                $(event.target).addClass('input-error');
+                            }else {
+                                $(event.target).removeClass('input-error');
+                            }
+                        }).catch(error=>{
+
+                        })
+                    },
+					toSumbbit:function () {
+                        let flag=true;
+						$('.row').find('input').each(function () {
+							if ($(this).val()==''||$(this).hasClass('input-error')){
+							    flag=false;
+							    return;
+							}
+                        });
+						if (flag){
+							axios.put(`user/resetPassword/${this.code}`,this.user).then(res=>{
+							    layer.msg(res.data.msg);
+							    if (res.data.success){
+							        location.href='index.html'
+								}
+							}).catch()
+						}else {
+						    layer.msg('信息有误')
+						}
+                    },
+                    sendEmailCode:function () {
+						axios.post(`user/sendEmailCode/${this.user.email}`).then(res=>{
+						    layer.msg(res.data.msg);
+						}).catch()
+                    }
+
+				}
+			});
+		</script>
+	</body>
+</html>

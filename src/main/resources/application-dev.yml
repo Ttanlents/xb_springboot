@@ -1,0 +1,116 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /xb
+
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  #solr
+  data:
+    solr:
+      host: http://localhost:8983/solr
+  #redis
+  redis:
+    password: 12345678
+    jedis:
+      pool:
+        max-idle: 3
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true    # 格式化sql
+        show_sql: true        # 显示sql
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/xb
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 12345678
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid 性能监控配置
+    druid:
+      stat-view-servlet:
+        enabled: true
+        login-username: druid
+        login-password: 123
+        url-pattern: /druid/*
+        allow:
+      filter:
+        stat:
+          enabled: true   #sql监控
+        wall:
+          enabled: true  #sql防火墙
+      web-stat-filter:
+        enabled: true    #web监控
+        url-pattern: /*
+        exclusions: "*.js,*.jsp,*.png,*.css,/druid/*"
+        #默认设置了
+        profile-enable: true  #开启当前url执行的sql监控
+        principal-session-name: loginUser
+        session-stat-enable: true     #开启session监控
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+  #jpa:
+  #show-sql: true
+  #open-in-view: true
+
+
+    #开发时关闭缓存,不然没法看到实时页面
+
+
+
+
+
+  #mybatis.type-aliases-package=com.gao.security.bean
+    #mybatis.mapper-locations=classpath:mybatis/mapper/*.xml
+  mvc:
+    view:
+      prefix:
+      suffix:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+mybatis:
+  type-aliases-package: com.yjf.entity
+  mapper-locations: classpath:mapper/*.xml
+  check-config-location: true
+  configuration:
+    map-underscore-to-camel-case: true  #驼峰式命名法
+    call-setters-on-nulls: true #设置map中value为null也进行封装
+    object-wrapper-factory: com.yjf.utils.MapWrapperFactory
+
+logging:
+  level:
+    com:
+      yjf:
+        mapper: trace
+    org:
+      springframework:
+        cache: trace
+  #config: classpath:log4j2.xml
+
+  #中国时区
+  #spring.jackson.time-zone=GMT+8
+  #spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+
+uploads:
+  file:
+    prefix: D:\upload\
+
+#静态资源对外暴露的访问路径
+file:
+  requestPath: /upload/**
+  dir: D:/upload/
+
