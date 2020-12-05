@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="../js/layer.js"></script>
+<script src="../js/vue-2.6.11.js"></script>
+<script src="../js/axios-0.19.2.min.js"></script>
+<script src="../js/jquery-cookie-1.4.1.js"></script>
+<script>
+    new Vue({
+        methods:{
+            saveWxLoginUser:function () {
+                axios({
+                    url:'../saveWxLoginUser',
+                    method:'get'
+                }).then(res=>{
+                    if (res.data.success){
+                        $.cookie("loginUserId",res.data.obj.id,{path: "/", expires: 7});
+                        localStorage.setItem("loginUser",JSON.stringify(res.data.obj));
+                        location.href='home.html'
+                    }
+                });
+
+            }
+        },
+        created:function () {
+            this.saveWxLoginUser();
+        }
+    });
+</script>
+</html>

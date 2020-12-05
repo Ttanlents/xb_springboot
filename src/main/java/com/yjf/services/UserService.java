@@ -117,4 +117,12 @@ public class UserService {
     public void toChancelFocus(Integer loginUserId, Integer id) {
       userDao.deleteFocus(loginUserId,id);
     }
+
+    public User findByWxOpenid(String openid) {
+        return userDao.findByWxOpenid(openid);
+    }
+
+    public List<Integer> findFansById(Integer loginUserId) {
+        return userDao.findFansById(loginUserId);
+    }
 }

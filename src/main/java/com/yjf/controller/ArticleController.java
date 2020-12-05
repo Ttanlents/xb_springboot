@@ -1,7 +1,9 @@
 package com.yjf.controller;
 
+import com.yjf.config.WebSocketServer;
 import com.yjf.entity.*;
 import com.yjf.services.ArticleService;
+import com.yjf.services.UserService;
 import com.yjf.utils.LoginUserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/selectPage/{pageCurrent}", method = RequestMethod.GET)
     @ResponseBody
@@ -57,6 +61,8 @@ public class ArticleController {
         Article solr = new Article();
         BeanUtils.copyProperties(article,solr);
         articleService.addArticleForSolr(solr);//保存到solr
+        List<Integer>  ids=userService.findFansById(loginUser.getId());
+        WebSocketServer.sendMessage(ids,"你关注的用户:"+loginUser.getRealName()+"发布新文章啦");
         return new Result(true, "发布成功",null);
     }
 
@@ -77,15 +83,17 @@ public class ArticleController {
         map.put("count",count);
         map.put("article",article);
         map.put("isFavorite",isFavorite);
-        return new Result(true, "发布成功",map);
+        return new Result(true, "查询文章详情成功",map);
     }
 
     @PutMapping(value = "/changeCollectArticle/{id}")
     @ResponseBody
     public Result changeCollectArticle(@PathVariable Integer id) {
-        Integer userId = LoginUserUtils.getLoginUserId();
-        Boolean flag=articleService.changeCollectArticle(userId,id);
+        User loginUser = LoginUserUtils.getLoginUser();
+        Boolean flag=articleService.changeCollectArticle(loginUser.getId(),id);
         if (flag){
+            Article_ article_ = articleService.findArticleById(id);
+            WebSocketServer.priSendMessage(article_.getUserId(),loginUser.getRealName()+"刚刚收藏了你的《"+article_.getTitle()+"》");
             return new Result(true, "收藏成功",null);
         }
         return new Result(true, "取消收藏成功",null);

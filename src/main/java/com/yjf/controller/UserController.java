@@ -1,5 +1,6 @@
 package com.yjf.controller;
 
+import com.yjf.config.WebSocketServer;
 import com.yjf.constant.LoginUser;
 import com.yjf.entity.Dept;
 import com.yjf.entity.PageResult;
@@ -47,6 +48,7 @@ public class UserController {
     DeptService deptService;
     @Autowired
     Environment environment;
+
 
 
     /**
@@ -117,6 +119,9 @@ public class UserController {
         }
         return new Result(false, "重置密码失败", null);
 
+
+
+
     }
 
     @PostMapping("/doLogin/{code}")
@@ -135,7 +140,7 @@ public class UserController {
             map.put(LoginUser.STORAGE_LOGINUSER_KEY, one);
             map.put(LoginUser.COOKIE_LOGINUSERID_KEY, one.getId());
             redisTemplate.opsForValue().set(LoginUser.REDIS_LOGINUSER_KEY + one.getId(), one, 3, TimeUnit.DAYS);
-
+            WebSocketServer.sendMessageNot(one.getId(),one.getRealName()+"上线啦");
             return new Result(true, "登录成功", map);
         }
         return new Result(false, "账号或密码有误", null);
@@ -180,13 +185,14 @@ public class UserController {
     @PutMapping("/changeFocus/{id}")
     @ResponseBody
     public Result changeFocus(@PathVariable Integer id) {
-        Integer loginUserId = LoginUserUtils.getLoginUserId();
-        Boolean flag = userService.isFocusOtherById(loginUserId, id);
+        User loginUser = LoginUserUtils.getLoginUser();
+        Boolean flag = userService.isFocusOtherById(loginUser.getId(), id);
         if (flag) { //关注过了
-            userService.deleteFocus(loginUserId, id);
+            userService.deleteFocus(loginUser.getId(), id);
             return new Result(true, "取关成功", null);
         }
-        userService.insertFocus(loginUserId, id);
+        userService.insertFocus(loginUser.getId(), id);
+        WebSocketServer.priSendMessage(id,loginUser.getRealName()+"刚刚关注了你哦");
         return new Result(true, "关注成功", null);
 
     }

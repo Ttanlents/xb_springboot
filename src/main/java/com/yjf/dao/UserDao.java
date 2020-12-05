@@ -29,8 +29,20 @@ public interface UserDao extends JpaRepository<User,Integer> {
 
     Page<User> findByUsernameLike(String pageCurrent, Pageable of);
 
+    /**
+     *查询我关注的人
+     * @param loginUserId
+     */
     @Query("select uf.userFocusId  from UserFocus uf where uf.userId=?1")
     List<Integer> findFocusById(Integer loginUserId);
+
+    /**
+     *查询关注我的人
+    * @param loginUserId
+    */
+    @Query("select uf.userId  from UserFocus uf where uf.userFocusId=?1")
+    List<Integer> findFansById(Integer loginUserId);
+
 
     @Query("select count(1) from UserFocus uf where uf.userId=?1")
     Integer countFocusById(Integer id);
@@ -56,4 +68,6 @@ public interface UserDao extends JpaRepository<User,Integer> {
 
     @Query("select u from UserFocus uf,User u where uf.userId=?1 and uf.userFocusId=u.id")
    Page<User> findMyFocus(Integer id,Pageable of);
+
+    User findByWxOpenid(String openid);
 }

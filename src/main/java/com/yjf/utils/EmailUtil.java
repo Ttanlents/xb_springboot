@@ -21,7 +21,7 @@ public class EmailUtil {
 
     public static void main(String[] args) {
         try {
-            sendEmail("2317023081@qq.com","9587");
+            sendEmail("xxxxxx81@qq.com","9587");
         } catch (MessagingException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
@@ -41,7 +41,7 @@ public class EmailUtil {
         //第一步：设置发件人邮箱地址，第二步：开启smtp服务
 
             //设置发件人(服务器)
-            String from = "825362171@qq.com";
+            String from = "xxxxx1@qq.com";
             //设置收件人
             String to = emailName;
             //设置邮件发送的服务器，这里为QQ邮件服务器

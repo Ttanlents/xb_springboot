@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<base href="/xb/"/>
+		
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Bootstrap CSS-->
-		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.css">
 		<!-- Font Awesome CSS-->
-		<link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.min.css">
 		<!-- Custom Font Icons CSS-->
-		<link rel="stylesheet" href="css/font.css">
+		<link rel="stylesheet" href="../css/font.css">
 		<!-- theme stylesheet-->
-		<link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+		<link rel="stylesheet" href="../css/style.default.css" id="theme-stylesheet">
 		<!-- Custom stylesheet - for your changes-->
-		<link rel="stylesheet" href="css/custom.css">
-		<link rel="stylesheet" href="bootstrap/css/bootstrap-select.min.css">
-		<link rel="stylesheet" href="css/layer.css">
+		<link rel="stylesheet" href="../css/custom.css">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap-select.min.css">
+		<link rel="stylesheet" href="../css/layer.css">
 		<title>个人中心</title>
 
 	</head>
@@ -47,7 +47,7 @@
 						<div class="right-menu list-inline no-margin-bottom">
 							<!-- Log out -->
 							<div class="list-inline-item logout">
-								<a id="logout" href="index.html" class="nav-link"><span class="d-none d-sm-inline">Logout </span></a>
+								<a id="logout" href="/index.html" class="nav-link"><span class="d-none d-sm-inline">Logout </span></a>
 							</div>
 						</div>
 					</div>
@@ -62,27 +62,27 @@
 						<div id="avatar" class="avatar"><img :src="loginUser.pic" alt="..." class="img-fluid rounded-circle">
 						</div>
 						<div class="title">
-							<h1 class="h5">{{loginUser.username}}</h1>
+							<h1 class="h5">{{loginUser.realName}}</h1>
 							<p>{{loginUser.deptName}}</p>
 						</div>
 					</div>
 					<!-- Sidebar Navidation Menus--><span class="heading">Main</span>
 					<ul class="list-unstyled">
-						<li><a href="html/home.html"> <i class="icon-home"></i>主页 </a></li>
+						<li><a href="home.html"> <i class="icon-home"></i>主页 </a></li>
 						<li><a href="#userDropdown" data-toggle="collapse"> <i class="icon-windows"></i>用户列表</a>
 							<ul id="userDropdown" class="collapse list-unstyled">
-								<li><a href="html/user.html">查看用户</a></li>
-								<li><a href="html/my_user.html">我关注的用户</a></li>
-								<li><a href="html/article.html">发布文章</a></li>
-								<li><a href="html/article_collect.html">我的收藏</a></li>
+								<li><a href="user.html">查看用户</a></li>
+								<li><a href="my_user.html">我关注的用户</a></li>
+								<li><a href="article.html">发布文章</a></li>
+								<li><a href="article_collect.html">我的收藏</a></li>
 							</ul>
 						</li>
 						<!--<li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>-->
 
 						<li><a href="#depDropdown" data-toggle="collapse"> <i class="icon-windows2"></i>部门列表</a>
 							<ul id="depDropdown" class="collapse list-unstyled ">
-								<li><a href="html/department.html">全部部门</a></li>
-								<li><a href="html/meeting.html">会议系统</a></li>
+								<li><a href="department.html">全部部门</a></li>
+								<li><a href="meeting.html">会议系统</a></li>
 							</ul>
 						</li>
 
@@ -220,20 +220,20 @@
 			</div>
 		</div>
 		<!-- JavaScript files-->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="bootstrap/js/bootstrap-select.min.js"></script>
-		<script src="vendor/popper.js/umd/popper.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-		<script src="vendor/jquery.cookie/jquery.cookie.js"></script>
-		<script src="vendor/chart.js/Chart.min.js"></script>
-		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-		<script src="js/charts-home.js"></script>
-		<script src="js/front.js"></script>
-		<script src="js/custom.js"></script>
-		<script src="js/layer.js"></script>
-		<script src="js/vue-2.6.11.js"></script>
-		<script src="js/axios-0.19.2.min.js"></script>
-		<script src="js/jquery-cookie-1.4.1.js"></script>
+		<script src="../vendor/jquery/jquery.min.js"></script>
+		<script src="../bootstrap/js/bootstrap-select.min.js"></script>
+		<script src="../vendor/popper.js/umd/popper.min.js"></script>
+		<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../vendor/jquery.cookie/jquery.cookie.js"></script>
+		<script src="../vendor/chart.js/Chart.min.js"></script>
+		<script src="../vendor/jquery-validation/jquery.validate.min.js"></script>
+		<script src="../js/charts-home.js"></script>
+		<script src="../js/front.js"></script>
+		<script src="../js/custom.js"></script>
+		<script src="../js/layer.js"></script>
+		<script src="../js/vue-2.6.11.js"></script>
+		<script src="../js/axios-0.19.2.min.js"></script>
+		<script src="../js/jquery-cookie-1.4.1.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				$("#pic").click(function() {
@@ -254,7 +254,7 @@
                 methods:{
                     getUserDetail:function () {
                         axios({
-                            url:`user/getUserDetail/${this.loginUser.id}`,
+                            url:`../user/getUserDetail/${this.loginUser.id}`,
                             method:'get'
                         }).then(res=>{
                             if (res.data.success){
@@ -268,7 +268,7 @@
                     },
                     selectAllDept: function () {
                         axios({
-                            url: 'user/selectAllDept',
+                            url: '../user/selectAllDept',
 							method:'get'
                         }).then(response => {
 
@@ -283,7 +283,7 @@
                     },
 					doSave:function () {
 						axios({
-							url:'user/doSave',
+							url:'../user/doSave',
 							data:this.loginUser,
 							method:'post'
 						}).then(res=>{
@@ -298,7 +298,7 @@
                         let formDate = new FormData();
                         formDate.append("file", file); //获取表单对象
                         axios({
-                            url: 'user/upload',
+                            url: '../user/upload',
                             method: 'post',
                             data: formDate,
                             headers: {

@@ -44,15 +44,18 @@ public class LoginUserUtils {
 
     public static User getLoginUser(){
         Cookie cookie = getCookie();
-        User loginUser = (User)redisTemplate.opsForValue().get(LoginUser.REDIS_LOGINUSER_KEY+cookie.getValue());
-        if (loginUser!=null){
-            return loginUser;
-        }
-       User user= userService.findById(Integer.parseInt(cookie.getValue()));
-        if (user!=null){
-            redisTemplate.opsForValue().set(LoginUser.REDIS_LOGINUSER_KEY+cookie.getValue(),user);
-        }
-        return user;
+       if (cookie!=null){
+           User loginUser = (User)redisTemplate.opsForValue().get(LoginUser.REDIS_LOGINUSER_KEY+cookie.getValue());
+           if (loginUser!=null){
+               return loginUser;
+           }
+           User user= userService.findById(Integer.parseInt(cookie.getValue()));
+           if (user!=null){
+               redisTemplate.opsForValue().set(LoginUser.REDIS_LOGINUSER_KEY+cookie.getValue(),user);
+           }
+           return user;
+       }
+       return null;
     }
 
     public static Integer getLoginUserId(){

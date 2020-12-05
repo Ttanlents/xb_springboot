@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="/xb/"/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,8 +62,9 @@
                         <input type="checkbox"> 记住我
                     </label>
                 </div>
-                <button type="button" class="btn" @click="doLogin">登录</button>
-
+                <button type="button" class="btn" @click="doLogin">登录</button><br/><br/>
+                <button type="button" class="btn" @click="toWXLogin">微信登录</button>
+               <!-- <button type="button" class="btn" @click="toWXLogin">QQ登录</button>-->
                 <div class="row">
                     <div style="padding: 10px 25px">
                         <div style="display: inline-block;float: left" class="text-left"><a href="forget.html">忘记密码?</a>
@@ -118,6 +118,9 @@
                 } else {
                     layer.msg('信息有误')
                 }
+            },
+            toWXLogin:function () {
+                location.href='toWx_login'
             }
         }
     });
